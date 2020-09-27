@@ -4,8 +4,10 @@ import 'package:medicine/helpers/platform_flat_button.dart';
 class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double deviceHeight =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    final double deviceHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+
+    void goToHomeScreen() => Navigator.pushReplacementNamed(context, "/home");
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -55,7 +57,7 @@ class Welcome extends StatelessWidget {
               child: Padding(
                   padding: const EdgeInsets.only(left: 35.0, right: 35.0),
                   child: PlatformFlatButton(
-                    handler: () {},
+                    handler: goToHomeScreen ,
                     color: Theme.of(context).primaryColor,
                     buttonChild: Text(
                       "Get started now",
