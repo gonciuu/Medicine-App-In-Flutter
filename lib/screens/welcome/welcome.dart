@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicine/helpers/platform_flat_button.dart';
 
 class Welcome extends StatelessWidget {
   @override
@@ -53,18 +54,16 @@ class Welcome extends StatelessWidget {
               width: double.infinity,
               child: Padding(
                   padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-                  child: FlatButton(
+                  child: PlatformFlatButton(
+                    handler: () {},
                     color: Theme.of(context).primaryColor,
-                    child: Text(
+                    buttonChild: Text(
                       "Get started now",
                       style: Theme.of(context)
                           .textTheme
                           .headline3
                           .copyWith(color: Colors.white),
                     ),
-                    onPressed: () {},
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
                   )),
             ),
           ],
