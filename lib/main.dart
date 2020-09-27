@@ -27,6 +27,7 @@ class MedicineApp extends StatelessWidget {
               fontSize: 20.0,
               fontFamily: "Popins",
             ))),
+
         home: Welcome());
   }
 }
