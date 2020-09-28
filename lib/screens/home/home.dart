@@ -1,6 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  final daysList = List();
+  @override
+  void initState() {
+    super.initState();
+
+    DateTime currentTime = DateTime.now();
+    for (int i = 0; i < 7; i++) {
+      print(currentTime.day);
+      daysList.add({
+        "dayNumber": DateFormat.d().format(currentTime).toString(),
+        "dayName": DateFormat.E().format(currentTime).toString()[0]
+      });
+      currentTime = currentTime.add(Duration(days: 1));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double deviceHeight =
@@ -35,35 +58,42 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: deviceHeight * 0.01,),
+              SizedBox(
+                height: deviceHeight * 0.01,
+              ),
               Container(
                 height: deviceHeight * 0.1,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    for(int i=0;i<=6;i++)Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "M",
-                          style: TextStyle(
-                              color: Colors.grey[500],
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w400),
-                        ),SizedBox(
-                          height: 12.0,
-                        ),
-                        CircleAvatar(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          child: Text(
-                            "7",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
-                    )
+                    ...daysList
+                        .map((day) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  day["dayName"],
+                                  style: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 17.0,
+                                      fontWeight: FontWeight.w400),
+                                ),
+                                SizedBox(
+                                  height: 12.0,
+                                ),
+                                CircleAvatar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  child: Text(
+                                    day["dayNumber"],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ))
+                        .toList()
                   ],
                 ),
               )
