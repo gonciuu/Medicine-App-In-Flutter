@@ -75,13 +75,13 @@ class _HomeState extends State<Home> {
                                   height: 12.0,
                                 ),
                                 GestureDetector(
-                                  onTap: () => setState(()=>day.isChecked = !day.isChecked),
+                                  onTap: () => onDayClick(_daysList.indexOf(day)),
                                   child: CircleAvatar(
                                     backgroundColor: day.isChecked ?  Theme.of(context).primaryColor : Colors.transparent,
                                     child: Text(
                                       day.dayNumber,
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: day.isChecked ? Colors.white : Colors.black,
                                           fontSize: 22.0,
                                           fontWeight: FontWeight.w500),
                                     ),
@@ -101,7 +101,12 @@ class _HomeState extends State<Home> {
   }
 
 
-  void onDayClick(){
-
+  void onDayClick(int clickIndex){
+    setState(() {
+      for(Day day in _daysList){
+        day.isChecked = false;
+      }
+      _daysList[clickIndex].isChecked = true;
+    });
   }
 }
