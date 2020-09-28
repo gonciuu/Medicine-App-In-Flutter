@@ -1,5 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../models/day.dart';
+import '../../screens/home/calendar.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,15 +8,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-  final Day _days = Day();
-  List<Day> _daysList = List();
-
-
   @override
   void initState() {
     super.initState();
-    _daysList =  _days.getCurrentDays();
   }
 
   @override
@@ -55,58 +50,11 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: deviceHeight * 0.01,
               ),
-              Container(
-                height: deviceHeight * 0.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ..._daysList
-                        .map((day) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  day.dayLetter,
-                                  style: TextStyle(
-                                      color: Colors.grey[500],
-                                      fontSize: 17.0,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                SizedBox(
-                                  height: 12.0,
-                                ),
-                                GestureDetector(
-                                  onTap: () => onDayClick(_daysList.indexOf(day)),
-                                  child: CircleAvatar(
-                                    backgroundColor: day.isChecked ?  Theme.of(context).primaryColor : Colors.transparent,
-                                    child: Text(
-                                      day.dayNumber,
-                                      style: TextStyle(
-                                          color: day.isChecked ? Colors.white : Colors.black,
-                                          fontSize: 22.0,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ))
-                        .toList()
-                  ],
-                ),
-              )
+              Calendar()
             ],
           ),
         ),
       ),
     );
-  }
-
-
-  void onDayClick(int clickIndex){
-    setState(() {
-      for(Day day in _daysList){
-        day.isChecked = false;
-      }
-      _daysList[clickIndex].isChecked = true;
-    });
   }
 }
