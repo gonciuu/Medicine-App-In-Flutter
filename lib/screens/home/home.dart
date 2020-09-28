@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import '../../models/day.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,20 +8,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  final daysList = List();
+  final Day _days = Day();
+  List<Day> _daysList = List();
+
+
   @override
   void initState() {
     super.initState();
-
-    DateTime currentTime = DateTime.now();
-    for (int i = 0; i < 7; i++) {
-      print(currentTime.day);
-      daysList.add({
-        "dayNumber": DateFormat.d().format(currentTime).toString(),
-        "dayName": DateFormat.E().format(currentTime).toString()[0]
-      });
-      currentTime = currentTime.add(Duration(days: 1));
-    }
+    _daysList =  _days.getCurrentDays();
   }
 
   @override
@@ -66,12 +60,12 @@ class _HomeState extends State<Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ...daysList
+                    ..._daysList
                         .map((day) => Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  day["dayName"],
+                                  day.dayLetter,
                                   style: TextStyle(
                                       color: Colors.grey[500],
                                       fontSize: 17.0,
@@ -80,15 +74,17 @@ class _HomeState extends State<Home> {
                                 SizedBox(
                                   height: 12.0,
                                 ),
-                                CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  child: Text(
-                                    day["dayNumber"],
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22.0,
-                                        fontWeight: FontWeight.w500),
+                                GestureDetector(
+                                  onTap: () => setState(()=>day.isChecked = !day.isChecked),
+                                  child: CircleAvatar(
+                                    backgroundColor: day.isChecked ?  Theme.of(context).primaryColor : Colors.transparent,
+                                    child: Text(
+                                      day.dayNumber,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22.0,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -102,5 +98,10 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+
+  void onDayClick(){
+
   }
 }
