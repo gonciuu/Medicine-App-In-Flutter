@@ -6,7 +6,7 @@ class MedicinesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemBuilder: (context, index) => MedicineCard(),
-      itemCount: 100,
+      itemCount: 15,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
     );

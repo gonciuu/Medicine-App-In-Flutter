@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
