@@ -4,8 +4,12 @@ class MedicineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 0.0,
+      margin: EdgeInsets.symmetric(vertical:7.0),
       color: Colors.white,
       child: ListTile(
+        contentPadding: EdgeInsets.symmetric(vertical:15.0,horizontal: 15.0),
           title: Text(
             "Sinupret",
             style: Theme.of(context)
@@ -18,23 +22,26 @@ class MedicineCard extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .headline5
-                .copyWith(color: Colors.black, fontSize: 15.0),
+                .copyWith(color: Colors.grey[600], fontSize: 15.0),
           ),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 5.0,),
               Text("13:00",style: TextStyle(
-                color: Colors.grey[600],
+                color: Colors.grey[500],
                 fontWeight: FontWeight.w400,
-                fontSize: 14.5
+                fontSize: 15
               ),),
             ],
           ),
-          leading: ClipRRect(
-            borderRadius: BorderRadius.circular(50.0),
-            child: Image.network(
-                "https://img.freepik.com/free-vector/medicine-flat-design_1212-670.jpg?size=338&ext.jpg"),
+          leading: Container(
+            width: 60.0,
+            height: 60.0,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50.0),
+              child: Image.asset(
+                  "assets/images/welcome_image.png"),
+            ),
           )),
     );
   }
