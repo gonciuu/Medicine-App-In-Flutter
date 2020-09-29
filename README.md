@@ -1,4 +1,4 @@
-# medicine
+# medicines
 
 A new Flutter application.
 
