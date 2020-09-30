@@ -23,7 +23,7 @@ class _CalendarState extends State<Calendar> {
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
     return Container(
-      height: deviceHeight * 0.1,
+      height: deviceHeight * 0.11,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [..._daysList.map((day) => CalendarDay(day, onDayClick))],
