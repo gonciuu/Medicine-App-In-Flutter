@@ -1,6 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medicine/screens/home/medicines_list.dart';
+import '../../screens/home/medicines_list.dart';
 import '../../screens/home/calendar.dart';
 
 class Home extends StatefulWidget {
@@ -14,12 +15,24 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final double deviceHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
 
+
+    final Widget addButton = FloatingActionButton(
+      elevation: 2.0,
+      onPressed: (){},
+      child: Icon(Icons.add, color: Colors.white, size: 24.0,),
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+
+
     return Scaffold(
+      floatingActionButton: addButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       body: SingleChildScrollView(
         child: SafeArea(

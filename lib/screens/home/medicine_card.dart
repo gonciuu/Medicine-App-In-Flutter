@@ -16,6 +16,8 @@ class MedicineCard extends StatelessWidget {
                 .textTheme
                 .headline1
                 .copyWith(color: Colors.black, fontSize: 20.0),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
             "1 capsule",
@@ -23,6 +25,8 @@ class MedicineCard extends StatelessWidget {
                 .textTheme
                 .headline5
                 .copyWith(color: Colors.grey[600], fontSize: 15.0),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.start,
