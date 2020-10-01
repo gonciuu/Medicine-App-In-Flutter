@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medicine/helpers/platform_slider.dart';
+import '../../helpers/platform_slider.dart';
+import '../../screens/add_new_medicine/medicine_type_card.dart';
 
 class AddNewMedicine extends StatefulWidget {
   @override
@@ -134,7 +135,11 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child: Text("How long?"),
+                      child:  Text("How long?",style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600
+                      ),),
                     ),
                     Row(
                       children: [
@@ -153,6 +158,25 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                       child: Text('$howManyWeeks weeks'),
                     )
                   ],
+                ),
+              ),SizedBox(height: 20.0,),
+              Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child:  Text("Medicine form",style: TextStyle(
+                      color: Colors.grey[800],
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600
+                  ),),
+              ),SizedBox(height: 20.0,),
+              Container(
+                height: 100,
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    for(int i =0;i<6;i++) MedicineTypeCard()
+                  ],
+
                 ),
               )
             ],
