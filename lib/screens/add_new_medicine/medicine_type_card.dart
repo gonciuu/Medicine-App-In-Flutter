@@ -16,6 +16,7 @@ class MedicineTypeCard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 5.0,),
               Container(child: Icon(Icons.local_drink,color: Theme.of(context).primaryColor,),),
               SizedBox(height: 7.0,),
               Container(child: Text("Capsule",style: TextStyle(

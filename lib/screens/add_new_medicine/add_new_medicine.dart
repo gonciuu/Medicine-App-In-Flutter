@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:medicine/helpers/platform_flat_button.dart';
 import '../../helpers/platform_slider.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
 
@@ -28,7 +29,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0),
+          padding: const EdgeInsets.only(
+              left: 20.0, right: 20.0, top: 30.0, bottom: 30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,7 +46,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 ),
               ),
               SizedBox(
-                height: deviceHeight * 0.02,
+                height: deviceHeight * 0.01,
               ),
               Container(
                 padding: EdgeInsets.only(left: 15.0),
@@ -59,7 +61,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 )),
               ),
               SizedBox(
-                height: deviceHeight * 0.03,
+                height: deviceHeight * 0.02,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -135,11 +137,13 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
-                      child:  Text("How long?",style: TextStyle(
-                          color: Colors.grey[800],
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w600
-                      ),),
+                      child: Text(
+                        "How long?",
+                        style: TextStyle(
+                            color: Colors.grey[800],
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                     Row(
                       children: [
@@ -159,24 +163,74 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                     )
                   ],
                 ),
-              ),SizedBox(height: 20.0,),
+              ),
               Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child:  Text("Medicine form",style: TextStyle(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: Text(
+                  "Medicine form",
+                  style: TextStyle(
                       color: Colors.grey[800],
                       fontSize: 18.0,
-                      fontWeight: FontWeight.w600
-                  ),),
-              ),SizedBox(height: 20.0,),
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
               Container(
                 height: 100,
                 child: ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    for(int i =0;i<6;i++) MedicineTypeCard()
+                    for (int i = 0; i < 6; i++) MedicineTypeCard()
                   ],
-
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Container(
+                width: double.infinity,
+                height: 70.0,
+                child: PlatformFlatButton(
+                  buttonChild: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 10),
+                      Text(
+                        "08:00",
+                        style: TextStyle(
+                            fontSize: 35.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.notifications,
+                        size: 30,
+                        color: Theme.of(context).primaryColor,
+                      )
+                    ],
+                  ),
+                  handler: () {},
+                  color: Color.fromRGBO(7, 190, 200, 0.1),
+                ),
+              ),
+              Spacer(),
+              Container(
+                height: 70.0,
+                width: double.infinity,
+                child: PlatformFlatButton(
+                  color: Theme.of(context).primaryColor,
+                  buttonChild: Text(
+                    "Done",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17.0),
+                  ),
+                  handler: () {},
                 ),
               )
             ],
