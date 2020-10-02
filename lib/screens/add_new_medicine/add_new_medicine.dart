@@ -23,7 +23,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceHeight = MediaQuery.of(context).size.height - 60.0;
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
@@ -61,121 +61,130 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 )),
               ),
               SizedBox(
-                height: deviceHeight * 0.02,
+                height: deviceHeight * 0.03,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextField(
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.0),
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 20.0),
-                          labelText: "Pills Name",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide:
-                                  BorderSide(width: 0.5, color: Colors.grey))),
-                    ),
-                    SizedBox(
-                      height: deviceHeight * 0.03,
-                    ),
-                    Row(
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16.0),
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 15.0, vertical: 20.0),
-                                labelText: "Pills Amount",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                        width: 0.5, color: Colors.grey))),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: DropdownButtonFormField(
-                            decoration: InputDecoration(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 15.0, vertical: 20.0),
-                                labelText: "Type",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide(
-                                        width: 0.5, color: Colors.grey))),
-                            items: weightValues
-                                .map((weight) => DropdownMenuItem(
-                                      child: Text(weight),
-                                      value: weight,
-                                    ))
-                                .toList(),
-                            onChanged: (value) =>
-                                setState(() => this.selectWeight = value),
-                            value: selectWeight,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 30.0,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: Text(
-                        "How long?",
+              Container(
+                height: deviceHeight * 0.37,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
                         style: TextStyle(
-                            color: Colors.grey[800],
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w600),
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.0),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 15.0, vertical: 20.0),
+                            labelText: "Pills Name",
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.grey))),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: PlatformSlider(
-                                divisions: 11,
-                                min: 1,
-                                max: 10,
-                                value: howManyWeeks,
-                                color: Theme.of(context).primaryColor,
-                                handler: sliderChanged)),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text('$howManyWeeks weeks'),
-                    )
-                  ],
+                      SizedBox(
+                        height: deviceHeight * 0.03,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.0),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 15.0, vertical: 20.0),
+                                  labelText: "Pills Amount",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          width: 0.5, color: Colors.grey))),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: DropdownButtonFormField(
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 15.0, vertical: 20.0),
+                                  labelText: "Type",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: BorderSide(
+                                          width: 0.5, color: Colors.grey))),
+                              items: weightValues
+                                  .map((weight) => DropdownMenuItem(
+                                        child: Text(weight),
+                                        value: weight,
+                                      ))
+                                  .toList(),
+                              onChanged: (value) =>
+                                  setState(() => this.selectWeight = value),
+                              value: selectWeight,
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0),
+                        child: Text(
+                          "How long?",
+                          style: TextStyle(
+                              color: Colors.grey[800],
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: PlatformSlider(
+                                  divisions: 11,
+                                  min: 1,
+                                  max: 10,
+                                  value: howManyWeeks,
+                                  color: Theme.of(context).primaryColor,
+                                  handler: sliderChanged)),
+                        ],
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text('$howManyWeeks weeks'),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text(
-                  "Medicine form",
-                  style: TextStyle(
-                      color: Colors.grey[800],
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600),
+              Container(
+                height: deviceHeight * 0.035,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: FittedBox(
+                    child: Text(
+                      "Medicine form",
+                      style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: deviceHeight * 0.02,
               ),
               Container(
                 height: 100,
@@ -188,11 +197,11 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 ),
               ),
               SizedBox(
-                height: 20.0,
+                height: deviceHeight * 0.03,
               ),
               Container(
                 width: double.infinity,
-                height: 70.0,
+                height: deviceHeight * 0.09,
                 child: PlatformFlatButton(
                   buttonChild: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -201,25 +210,20 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                       Text(
                         "08:00",
                         style: TextStyle(
-                            fontSize: 35.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500),
+                          fontSize: 35.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500
+                        ),
                       ),
                       SizedBox(width: 10),
-                      Icon(
-                        Icons.notifications,
-                        size: 30,
-                        color: Theme.of(context).primaryColor,
-                      )
+                      Icon(Icons.notifications,size: 30,color: Theme.of(context).primaryColor,)
                     ],
-                  ),
-                  handler: () {},
-                  color: Color.fromRGBO(7, 190, 200, 0.1),
+                  ), handler: (){}, color : Color.fromRGBO(7, 190, 200, 0.1),
                 ),
               ),
               Spacer(),
               Container(
-                height: 70.0,
+                height: deviceHeight * 0.09,
                 width: double.infinity,
                 child: PlatformFlatButton(
                   color: Theme.of(context).primaryColor,
