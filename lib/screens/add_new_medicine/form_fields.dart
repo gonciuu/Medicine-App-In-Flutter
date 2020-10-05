@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicine/helpers/platform_slider.dart';
+import 'package:medicine/screens/add_new_medicine/slider.dart';
 
 
 class FormFields extends StatelessWidget {
@@ -109,18 +110,7 @@ class FormFields extends StatelessWidget {
           ),
           Container(
             height: constrains.maxHeight * 0.18,
-            child: Row(
-              children: [
-                Expanded(
-                    child: PlatformSlider(
-                        divisions: 11,
-                        min: 1,
-                        max: 10,
-                        value: howManyWeeks,
-                        color: Theme.of(context).primaryColor,
-                        handler:  this.onSliderChanged,)),
-              ],
-            ),
+            child: UserSlider(this.onSliderChanged,this.howManyWeeks)
           ),
           Align(
             alignment: Alignment.bottomRight,
