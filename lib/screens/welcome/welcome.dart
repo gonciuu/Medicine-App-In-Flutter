@@ -33,12 +33,14 @@ class Welcome extends StatelessWidget {
                   child: PlatformFlatButton(
                     handler: goToHomeScreen ,
                     color: Theme.of(context).primaryColor,
-                    buttonChild: Text(
-                      "Get started now",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: Colors.white),
+                    buttonChild: FittedBox(
+                      child: Text(
+                        "Get started now",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3
+                            .copyWith(color: Colors.white),
+                      ),
                     ),
                   )),
             ),
