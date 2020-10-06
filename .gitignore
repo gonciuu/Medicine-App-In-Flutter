@@ -103,7 +103,7 @@ unlinked_spec.ds
 **/macos/Flutter/GeneratedPluginRegistrant.swift
 **/macos/Flutter/Flutter-Debug.xcconfig
 **/macos/Flutter/Flutter-Release.xcconfig
-**/macos/Flutter/Flutter-Profile.xcconfig
+**/macos/Flutter/Flutter-Profile.xcconfigs
 
 # Coverage
 coverage/

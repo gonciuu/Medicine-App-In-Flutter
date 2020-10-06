@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medicine/helpers/platform_flat_button.dart';
-import 'package:medicine/screens/add_new_medicine/form_fields.dart';
-import '../../helpers/platform_slider.dart';
+import 'package:intl/intl.dart';
+import '../../helpers/platform_flat_button.dart';
+import '../../screens/add_new_medicine/form_fields.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
 
 class AddNewMedicine extends StatefulWidget {
@@ -16,6 +16,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   int howManyWeeks = 1;
 
+  String hour = DateFormat("HH:mm").format(DateTime.now());
+
   @override
   void initState() {
     super.initState();
@@ -24,7 +26,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height - 60.0;
+    final deviceHeight = MediaQuery
+        .of(context)
+        .size
+        .height - 60.0;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -55,12 +60,13 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 height: deviceHeight * 0.06,
                 child: FittedBox(
                     child: Text(
-                  "Add Pills",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: Colors.black),
-                )),
+                      "Add Pills",
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline3
+                          .copyWith(color: Colors.black),
+                    )),
               ),
               SizedBox(
                 height: deviceHeight * 0.03,
@@ -68,9 +74,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
               Container(
                 height: deviceHeight * 0.37,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: FormFields(howManyWeeks,selectWeight,popUpMenuItemChanged,sliderChanged)
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: FormFields(howManyWeeks, selectWeight,
+                        popUpMenuItemChanged, sliderChanged)),
               ),
               Container(
                 height: deviceHeight * 0.035,
@@ -107,22 +113,29 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 width: double.infinity,
                 height: deviceHeight * 0.09,
                 child: PlatformFlatButton(
+                  handler: () => openTimePicker(),
                   buttonChild: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(width: 10),
                       Text(
-                        "08:00",
+                        this.hour,
                         style: TextStyle(
-                          fontSize: 35.0,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500
-                        ),
+                            fontSize: 35.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500),
                       ),
                       SizedBox(width: 10),
-                      Icon(Icons.notifications,size: 30,color: Theme.of(context).primaryColor,)
+                      Icon(
+                        Icons.notifications,
+                        size: 30,
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
+                      )
                     ],
-                  ), handler: (){}, color : Color.fromRGBO(7, 190, 200, 0.1),
+                  ),
+                  color: Color.fromRGBO(7, 190, 200, 0.1),
                 ),
               ),
               Spacer(),
@@ -130,7 +143,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 height: deviceHeight * 0.09,
                 width: double.infinity,
                 child: PlatformFlatButton(
-                  color: Theme.of(context).primaryColor,
+                  handler: () {},
+                  color: Theme
+                      .of(context)
+                      .primaryColor,
                   buttonChild: Text(
                     "Done",
                     style: TextStyle(
@@ -138,7 +154,6 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                         fontWeight: FontWeight.w600,
                         fontSize: 17.0),
                   ),
-                  handler: () {},
                 ),
               )
             ],
@@ -151,8 +166,15 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   void sliderChanged(double value) =>
       setState(() => this.howManyWeeks = value.round());
 
-
   void popUpMenuItemChanged(String value) =>
       setState(() => this.selectWeight = value);
 
+  Future<void> openTimePicker() async {
+    await showTimePicker(
+        context: context, initialTime: TimeOfDay.now(), helpText: "Choose Time")
+        .then((value) =>
+        setState(() =>
+        this.hour =
+            DateFormat("HH:mm").format(DateTime(value.hour, value.hour, value.hour, value.hour, value.minute))));
+  }
 }
