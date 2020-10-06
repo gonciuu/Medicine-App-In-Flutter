@@ -146,7 +146,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                       child: Container(
                         height: double.infinity,
                         child: PlatformFlatButton(
-                          handler: () => openTimePicker(),
+                          handler: () => openDatePicker(),
                           buttonChild: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -208,12 +208,30 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
             initialTime: TimeOfDay.now(),
             helpText: "Choose Time")
         .then((value) {
-      DateTime newDate = DateTime(setDate.year, setDate.month, setDate.day,
-          value!=null ? value.hour : setDate.hour, value!=null ? value.minute : setDate.minute);
+      DateTime newDate = DateTime(
+          setDate.year,
+          setDate.month,
+          setDate.day,
+          value != null ? value.hour : setDate.hour,
+          value != null ? value.minute : setDate.minute);
       setState(() => setDate = newDate);
     });
   }
 
-
-  
+  Future<void> openDatePicker() async {
+    await showDatePicker(
+            context: context,
+            initialDate: setDate,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(Duration(days: 100000)))
+        .then((value) {
+      DateTime newDate = DateTime(
+          value != null ? value.year : setDate.year,
+          value != null ? value.month : setDate.month,
+          value != null ? value.day : setDate.day,
+          setDate.hour,
+          setDate.minute);
+      setState(() => setDate = newDate);
+    });
+  }
 }
