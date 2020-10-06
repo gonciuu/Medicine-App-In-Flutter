@@ -16,7 +16,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   int howManyWeeks = 1;
 
-  String hour = DateFormat("HH:mm").format(DateTime.now());
+  DateTime setDate = DateTime.now();
 
   @override
   void initState() {
@@ -26,10 +26,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery
-        .of(context)
-        .size
-        .height - 60.0;
+    final deviceHeight = MediaQuery.of(context).size.height - 60.0;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -60,13 +57,12 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 height: deviceHeight * 0.06,
                 child: FittedBox(
                     child: Text(
-                      "Add Pills",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: Colors.black),
-                    )),
+                  "Add Pills",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline3
+                      .copyWith(color: Colors.black),
+                )),
               ),
               SizedBox(
                 height: deviceHeight * 0.03,
@@ -111,31 +107,70 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
               ),
               Container(
                 width: double.infinity,
-                height: deviceHeight * 0.09,
-                child: PlatformFlatButton(
-                  handler: () => openTimePicker(),
-                  buttonChild: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(width: 10),
-                      Text(
-                        this.hour,
-                        style: TextStyle(
-                            fontSize: 35.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500),
+                height: deviceHeight * 0.1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: double.infinity,
+                        child: PlatformFlatButton(
+                          handler: () => openTimePicker(),
+                          buttonChild: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(width: 10),
+                              Text(
+                                DateFormat.Hm().format(this.setDate),
+                                style: TextStyle(
+                                    fontSize: 32.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(width: 10),
+                              Icon(
+                                Icons.access_time,
+                                size: 30,
+                                color: Theme.of(context).primaryColor,
+                              )
+                            ],
+                          ),
+                          color: Color.fromRGBO(7, 190, 200, 0.1),
+                        ),
                       ),
-                      SizedBox(width: 10),
-                      Icon(
-                        Icons.notifications,
-                        size: 30,
-                        color: Theme
-                            .of(context)
-                            .primaryColor,
-                      )
-                    ],
-                  ),
-                  color: Color.fromRGBO(7, 190, 200, 0.1),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: double.infinity,
+                        child: PlatformFlatButton(
+                          handler: () => openTimePicker(),
+                          buttonChild: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(width: 10),
+                              Text(
+                                DateFormat("dd.MM").format(this.setDate),
+                                style: TextStyle(
+                                    fontSize: 32.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(width: 10),
+                              Icon(
+                                Icons.event,
+                                size: 30,
+                                color: Theme.of(context).primaryColor,
+                              )
+                            ],
+                          ),
+                          color: Color.fromRGBO(7, 190, 200, 0.1),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Spacer(),
@@ -144,9 +179,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 width: double.infinity,
                 child: PlatformFlatButton(
                   handler: () {},
-                  color: Theme
-                      .of(context)
-                      .primaryColor,
+                  color: Theme.of(context).primaryColor,
                   buttonChild: Text(
                     "Done",
                     style: TextStyle(
@@ -171,10 +204,16 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   Future<void> openTimePicker() async {
     await showTimePicker(
-        context: context, initialTime: TimeOfDay.now(), helpText: "Choose Time")
-        .then((value) =>
-        setState(() =>
-        this.hour =
-            DateFormat("HH:mm").format(DateTime(value.hour, value.hour, value.hour, value.hour, value.minute))));
+            context: context,
+            initialTime: TimeOfDay.now(),
+            helpText: "Choose Time")
+        .then((value) {
+      DateTime newDate = DateTime(setDate.year, setDate.month, setDate.day,
+          value!=null ? value.hour : setDate.hour, value!=null ? value.minute : setDate.minute);
+      setState(() => setDate = newDate);
+    });
   }
+
+
+  
 }
