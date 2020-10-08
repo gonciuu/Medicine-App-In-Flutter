@@ -202,6 +202,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   void popUpMenuItemChanged(String value) =>
       setState(() => this.selectWeight = value);
 
+  //------------------------OPEN TIME PICKER (SHOW)----------------------------
+  //------------------------CHANGE CHOOSE PILL TIME----------------------------
+
   Future<void> openTimePicker() async {
     await showTimePicker(
             context: context,
@@ -218,6 +221,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     });
   }
 
+  //====================================================================
+
+  //-------------------------SHOW DATE PICKER AND CHANGE CURRENT CHOOSE DATE-------------------------------
   Future<void> openDatePicker() async {
     await showDatePicker(
             context: context,
@@ -234,4 +240,5 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       setState(() => setDate = newDate);
     });
   }
+  //=======================================================================================================
 }
