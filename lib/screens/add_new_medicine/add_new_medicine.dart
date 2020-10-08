@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicine/database/repository.dart';
+import 'package:medicine/models/pill.dart';
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
@@ -11,12 +13,15 @@ class AddNewMedicine extends StatefulWidget {
 }
 
 class _AddNewMedicineState extends State<AddNewMedicine> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   String selectWeight;
   final List<String> weightValues = ["pills", "ml", "mg"];
 
   int howManyWeeks = 1;
 
   DateTime setDate = DateTime.now();
+  final Repository _repository = Repository();
 
   @override
   void initState() {
@@ -29,6 +34,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     final deviceHeight = MediaQuery.of(context).size.height - 60.0;
 
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromRGBO(248, 248, 248, 1),
       body: SafeArea(
@@ -178,7 +184,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 height: deviceHeight * 0.09,
                 width: double.infinity,
                 child: PlatformFlatButton(
-                  handler: () {},
+                  handler: () async => savePill(),
                   color: Theme.of(context).primaryColor,
                   buttonChild: Text(
                     "Done",
@@ -241,4 +247,23 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     });
   }
   //=======================================================================================================
+
+
+  Future savePill() async{
+    Pill pill = Pill(
+      amount: "3",
+      howManyWeeks: 2,
+      medicineForm: "Capsules",
+      name: "Polopiryna",
+      time: setDate.millisecondsSinceEpoch,
+      type: "pills"
+    );
+    dynamic result = await  _repository.insertData("Pills",pill.pillToMap());
+    print(result);
+    if(result == null){
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Something went wrong. Try again later")));
+    }else{
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Good $result")));
+    }
+  }
 }

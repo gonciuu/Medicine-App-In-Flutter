@@ -17,8 +17,12 @@ class Repository{
 
   Future<int> insertData(String table,Map<String,dynamic> data) async{
     Database db = await database;
-    return await db.insert(table, data);
+    try{
+      return await db.insert(table, data);
+    }catch(e){
+      return null;
+    }
   }
-  
+
 
 }

@@ -5,7 +5,7 @@ class Pill {
   String type;
   int howManyWeeks;
   String medicineForm;
-  DateTime time;
+  int time;
 
   Pill(
       {this.id,
