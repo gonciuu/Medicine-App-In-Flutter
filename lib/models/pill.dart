@@ -1,6 +1,5 @@
-
-
 class Pill {
+  int id;
   String name;
   String amount;
   String type;
@@ -9,7 +8,8 @@ class Pill {
   DateTime time;
 
   Pill(
-      {this.howManyWeeks,
+      {this.id,
+      this.howManyWeeks,
       this.time,
       this.amount,
       this.medicineForm,
@@ -20,6 +20,7 @@ class Pill {
 
   Map<String, dynamic> pillToMap() {
     Map<String, dynamic> map = Map();
+    map['id'] = this.id;
     map['name'] = this.name;
     map['amount'] = this.amount;
     map['type'] = this.type;
@@ -34,6 +35,7 @@ class Pill {
   //---------------------create pill object from map---------------------
   Pill pillMapToObject(Map<String, dynamic> pillMap) {
     return Pill(
+        id: pillMap['id'],
         name: pillMap['name'],
         amount: pillMap['amount'],
         type: pillMap['type'],
@@ -41,5 +43,5 @@ class Pill {
         medicineForm: pillMap['medicineForm'],
         time: pillMap['time']);
   }
-  //=====================================================================
+//=====================================================================
 }
