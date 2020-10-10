@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine/database/repository.dart';
+import 'package:medicine/helpers/snack_bar.dart';
 import 'package:medicine/models/pill.dart';
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
@@ -14,6 +15,7 @@ class AddNewMedicine extends StatefulWidget {
 
 class _AddNewMedicineState extends State<AddNewMedicine> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final Snackbar snackbar = Snackbar();
 
   String selectWeight;
   final List<String> weightValues = ["pills", "ml", "mg"];
@@ -261,9 +263,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     dynamic result = await  _repository.insertData("Pills",pill.pillToMap());
     print(result);
     if(result == null){
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Something went wrong. Try again later")));
+      snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     }else{
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Good $result")));
+      snackbar.showSnack("Saved", _scaffoldKey, null);
     }
   }
 }
