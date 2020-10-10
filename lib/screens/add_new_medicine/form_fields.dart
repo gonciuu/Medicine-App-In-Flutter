@@ -8,7 +8,9 @@ class FormFields extends StatelessWidget {
   final int howManyWeeks;
   final String selectWeight;
   final Function onPopUpMenuChanged, onSliderChanged;
-  FormFields(this.howManyWeeks,this.selectWeight,this.onPopUpMenuChanged,this.onSliderChanged);
+  final TextEditingController nameController;
+  final TextEditingController amountController;
+  FormFields(this.howManyWeeks,this.selectWeight,this.onPopUpMenuChanged,this.onSliderChanged,this.nameController,this.amountController);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class FormFields extends StatelessWidget {
           Container(
             height: constrains.maxHeight * 0.22,
             child: TextField(
+              controller: nameController,
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w400,
@@ -45,6 +48,7 @@ class FormFields extends StatelessWidget {
                 child: Container(
                   height: constrains.maxHeight * 0.22,
                   child: TextField(
+                    controller: amountController,
                     keyboardType: TextInputType.number,
                     style: TextStyle(
                         color: Colors.black,

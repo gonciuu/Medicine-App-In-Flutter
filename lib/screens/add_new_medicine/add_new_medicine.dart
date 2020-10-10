@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine/database/repository.dart';
 import 'package:medicine/helpers/snack_bar.dart';
+import 'package:medicine/models/medicine_type.dart';
 import 'package:medicine/models/pill.dart';
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
@@ -17,12 +18,24 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Snackbar snackbar = Snackbar();
 
-  String selectWeight;
   final List<String> weightValues = ["pills", "ml", "mg"];
+  final List<MedicineType> medicineTypes = [
+    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png")),
+    MedicineType("Tablet", Image.asset("assets/images/welcome_image.png")),
+    MedicineType("Capsules", Image.asset("assets/images/welcome_image.png")),
+    MedicineType("Cream", Image.asset("assets/images/welcome_image.png")),
+    MedicineType("Spray", Image.asset("assets/images/welcome_image.png")),
+  ];
 
+  //-------------Pill object------------------
   int howManyWeeks = 1;
-
+  String selectWeight;
   DateTime setDate = DateTime.now();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
+
+  //==========================================
+
   final Repository _repository = Repository();
 
   @override
@@ -79,8 +92,13 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                 height: deviceHeight * 0.37,
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: FormFields(howManyWeeks, selectWeight,
-                        popUpMenuItemChanged, sliderChanged)),
+                    child: FormFields(
+                        howManyWeeks,
+                        selectWeight,
+                        popUpMenuItemChanged,
+                        sliderChanged,
+                        nameController,
+                        amountController)),
               ),
               Container(
                 height: deviceHeight * 0.035,
@@ -106,7 +124,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    for (int i = 0; i < 6; i++) MedicineTypeCard()
+                    ...medicineTypes.map((type) =>MedicineTypeCard(type.name,type.image))
                   ],
                 ),
               ),
@@ -248,24 +266,24 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       setState(() => setDate = newDate);
     });
   }
+
   //=======================================================================================================
 
-
-  Future savePill() async{
+  Future savePill() async {
     Pill pill = Pill(
-      amount: "3",
-      howManyWeeks: 2,
-      medicineForm: "Capsules",
-      name: "Polopiryna",
-      time: setDate.millisecondsSinceEpoch,
-      type: "pills"
-    );
-    dynamic result = await  _repository.insertData("Pills",pill.pillToMap());
+        amount: amountController.text,
+        howManyWeeks: howManyWeeks,
+        medicineForm: "Capsules",
+        name: nameController.text,
+        time: setDate.millisecondsSinceEpoch,
+        type: selectWeight);
+    dynamic result = await _repository.insertData("Pills", pill.pillToMap());
     print(result);
-    if(result == null){
+    if (result == null) {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
-    }else{
-      snackbar.showSnack("Saved", _scaffoldKey, null);
+    } else {
+      snackbar.showSnack(
+          "Saved ${pill.name} ${pill.amount}", _scaffoldKey, null);
     }
   }
 }
