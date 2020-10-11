@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:medicine/models/pill.dart';
 
 class MedicineCard extends StatelessWidget {
+  final Pill medicine;
+  MedicineCard(this.medicine);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -11,7 +15,7 @@ class MedicineCard extends StatelessWidget {
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(vertical:15.0,horizontal: 15.0),
           title: Text(
-            "Sinupret",
+            medicine.name,
             style: Theme.of(context)
                 .textTheme
                 .headline1
@@ -20,7 +24,7 @@ class MedicineCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           subtitle: Text(
-            "1 capsule",
+            "${medicine.amount} ${medicine.medicineForm}",
             style: Theme.of(context)
                 .textTheme
                 .headline5
@@ -31,7 +35,7 @@ class MedicineCard extends StatelessWidget {
           trailing: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text("13:00",style: TextStyle(
+              Text(DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(medicine.time)),style: TextStyle(
                 color: Colors.grey[500],
                 fontWeight: FontWeight.w400,
                 fontSize: 15

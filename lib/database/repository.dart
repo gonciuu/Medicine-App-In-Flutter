@@ -24,5 +24,15 @@ class Repository{
     }
   }
 
+  Future<List<Map<String,dynamic>>> getAllData(table) async{
+    Database db = await database;
+    try{
+      return db.query(table);
+    }catch(e){
+      return null;
+    }
+
+  }
+
 
 }
