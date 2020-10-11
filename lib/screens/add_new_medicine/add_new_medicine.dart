@@ -223,9 +223,11 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     );
   }
 
+  //slider changer
   void sliderChanged(double value) =>
       setState(() => this.howManyWeeks = value.round());
 
+  //choose popum menu item
   void popUpMenuItemChanged(String value) =>
       setState(() => this.selectWeight = value);
 
@@ -270,6 +272,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   //=======================================================================================================
 
+  //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
     Pill pill = Pill(
         amount: amountController.text,
@@ -284,14 +287,19 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     } else {
       snackbar.showSnack(
-          "Saved ${pill.name} ${pill.medicineForm}", _scaffoldKey, null);
+          "Saved", _scaffoldKey, null);
+      Future.delayed(Duration(seconds: 2)).then((value) => Navigator.pop(context));
+
     }
   }
+  //=================================================================================================
 
+  //----------------------------CLICK ON MEDICINE FORM CONTAINER----------------------------------------
   void medicineTypeClick(MedicineType medicine){
     setState(() {
       medicineTypes.forEach((medicineType)=>medicineType.isChoose=false);
       medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
     });
   }
+  //=====================================================================================================
 }
