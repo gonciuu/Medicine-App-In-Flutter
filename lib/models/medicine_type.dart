@@ -5,6 +5,7 @@ class MedicineType{
 
   String name;
   Widget image;
-  MedicineType(this.name,this.image);
+  bool isChoose;
+  MedicineType(this.name,this.image,this.isChoose);
 
 }

@@ -18,13 +18,14 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Snackbar snackbar = Snackbar();
 
+
   final List<String> weightValues = ["pills", "ml", "mg"];
   final List<MedicineType> medicineTypes = [
-    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png")),
-    MedicineType("Tablet", Image.asset("assets/images/welcome_image.png")),
-    MedicineType("Capsules", Image.asset("assets/images/welcome_image.png")),
-    MedicineType("Cream", Image.asset("assets/images/welcome_image.png")),
-    MedicineType("Spray", Image.asset("assets/images/welcome_image.png")),
+    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png"),true),
+    MedicineType("Tablet", Image.asset("assets/images/welcome_image.png"),false),
+    MedicineType("Capsules", Image.asset("assets/images/welcome_image.png"),false),
+    MedicineType("Cream", Image.asset("assets/images/welcome_image.png"),false),
+    MedicineType("Spray", Image.asset("assets/images/welcome_image.png"),false),
   ];
 
   //-------------Pill object------------------
@@ -124,7 +125,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    ...medicineTypes.map((type) =>MedicineTypeCard(type.name,type.image))
+                    ...medicineTypes.map((type) => MedicineTypeCard(type,medicineTypeClick))
                   ],
                 ),
               ),
@@ -153,7 +154,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 5),
                               Icon(
                                 Icons.access_time,
                                 size: 30,
@@ -273,7 +274,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
-        medicineForm: "Capsules",
+        medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose ==true)].name,
         name: nameController.text,
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
@@ -283,7 +284,14 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     } else {
       snackbar.showSnack(
-          "Saved ${pill.name} ${pill.amount}", _scaffoldKey, null);
+          "Saved ${pill.name} ${pill.medicineForm}", _scaffoldKey, null);
     }
+  }
+
+  void medicineTypeClick(MedicineType medicine){
+    setState(() {
+      medicineTypes.forEach((medicineType)=>medicineType.isChoose=false);
+      medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
+    });
   }
 }
