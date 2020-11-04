@@ -73,27 +73,15 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     );
   }
 
-  Future _showNotificationWithDefaultSound() async {
-
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.high, priority: Priority.high,when: setDate.millisecondsSinceEpoch);
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails(
-        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-    print(setDate.millisecondsSinceEpoch);
-    print(tz.TZDateTime.now(tz.local).millisecondsSinceEpoch);
-
-    var time = setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
-    print(time);
+  Future _showNotificationWithDefaultSound(String title, String description, int time,int id) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'scheduled title',
-        'scheduled body',
+        id,
+        title,
+        description,
         tz.TZDateTime.now(tz.local).add(Duration(milliseconds: time)),
         const NotificationDetails(
             android: AndroidNotificationDetails('your channel id',
-                'your channel name', 'your channel description')),
+                'your channel name', 'your channel description',importance: Importance.high, priority: Priority.high,)),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime);
@@ -328,9 +316,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
-    tz.initializeTimeZones();
-    tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-    _showNotificationWithDefaultSound();
+
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
@@ -338,12 +324,17 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         name: nameController.text,
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
+
     dynamic result = await _repository.insertData("Pills", pill.pillToMap());
     if (result == null) {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     } else {
       snackbar.showSnack(
           "Saved", _scaffoldKey, null);
+      tz.initializeTimeZones();
+      tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
+      var time = setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
+      _showNotificationWithDefaultSound(pill.name,pill.medicineForm + " " + pill.type,time,setDate.millisecond);
       Navigator.pop(context);
     }
   }
