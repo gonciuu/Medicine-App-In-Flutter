@@ -333,7 +333,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
 
-    
+    //create pill object
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
@@ -344,6 +344,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
 
+
+    //---------------------| Save as many medicines as many user checks |----------------------
     for (int i = 0; i < howManyWeeks; i++) {
       dynamic result = await _repository.insertData("Pills", pill.pillToMap());
       if (result == null) {
@@ -359,6 +361,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         pill.time = setDate.millisecondsSinceEpoch;
       }
     }
+    //---------------------------------------------------------------------------------------
     Navigator.pop(context);
     snackbar.showSnack("Saved", _scaffoldKey, null);
   }
