@@ -18,22 +18,22 @@ class AddNewMedicine extends StatefulWidget {
 }
 
 class _AddNewMedicineState extends State<AddNewMedicine> {
-
-
-
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Snackbar snackbar = Snackbar();
 
-
   final List<String> weightValues = ["pills", "ml", "mg"];
   final List<MedicineType> medicineTypes = [
-    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png"),true),
-    MedicineType("Tablet", Image.asset("assets/images/welcome_image.png"),false),
-    MedicineType("Capsules", Image.asset("assets/images/welcome_image.png"),false),
-    MedicineType("Cream", Image.asset("assets/images/welcome_image.png"),false),
-    MedicineType("Spray", Image.asset("assets/images/welcome_image.png"),false),
+    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png"), true),
+    MedicineType(
+        "Tablet", Image.asset("assets/images/welcome_image.png"), false),
+    MedicineType(
+        "Capsules", Image.asset("assets/images/welcome_image.png"), false),
+    MedicineType(
+        "Cream", Image.asset("assets/images/welcome_image.png"), false),
+    MedicineType(
+        "Spray", Image.asset("assets/images/welcome_image.png"), false),
   ];
 
   //-------------Pill object------------------
@@ -54,13 +54,15 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     selectWeight = weightValues[0];
 
     //-----------------------------| Inicialize local notifications |--------------------------------------
-    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
     //======================================================================================================
-
   }
 
   //-------------| function to inicialize local notifications |---------------------------
@@ -75,22 +77,31 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       },
     );
   }
+
   //======================================================================================
 
   //---------------------------------| Show the notification in the specific time |-------------------------------
-  Future _showNotification(String title, String description, int time,int id) async {
+  Future _showNotification(
+      String title, String description, int time, int id) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
         description,
         tz.TZDateTime.now(tz.local).add(Duration(milliseconds: time)),
         const NotificationDetails(
-            android: AndroidNotificationDetails('your channel id',
-                'your channel name', 'your channel description',importance: Importance.high, priority: Priority.high,)),
+            android: AndroidNotificationDetails(
+          'medicines_id',
+          'medicines',
+          'medicines_notification_channel',
+          importance: Importance.high,
+          priority: Priority.high,
+              color: Colors.cyanAccent
+        )),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
+
   //================================================================================================================
 
   @override
@@ -173,7 +184,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   children: <Widget>[
-                    ...medicineTypes.map((type) => MedicineTypeCard(type,medicineTypeClick))
+                    ...medicineTypes.map(
+                        (type) => MedicineTypeCard(type, medicineTypeClick))
                   ],
                 ),
               ),
@@ -322,11 +334,12 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
-
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
-        medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose ==true)].name,
+        medicineForm: medicineTypes[
+                medicineTypes.indexWhere((element) => element.isChoose == true)]
+            .name,
         name: nameController.text,
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
@@ -335,26 +348,30 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     if (result == null) {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     } else {
-      snackbar.showSnack(
-          "Saved", _scaffoldKey, null);
+      snackbar.showSnack("Saved", _scaffoldKey, null);
       //set the schneudele
       tz.initializeTimeZones();
       tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-      await _showNotification(pill.name,pill.medicineForm + " " + pill.type,time,setDate.millisecond);
+      await _showNotification(pill.name, pill.medicineForm + " " + pill.type,
+          time, setDate.millisecond);
       Navigator.pop(context);
     }
   }
+
   //=================================================================================================
 
   //----------------------------CLICK ON MEDICINE FORM CONTAINER----------------------------------------
-  void medicineTypeClick(MedicineType medicine){
+  void medicineTypeClick(MedicineType medicine) {
     setState(() {
-      medicineTypes.forEach((medicineType)=>medicineType.isChoose=false);
+      medicineTypes.forEach((medicineType) => medicineType.isChoose = false);
       medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
     });
   }
+
   //=====================================================================================================
 
   //get time difference
-  int get time => setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
+  int get time =>
+      setDate.millisecondsSinceEpoch -
+      tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
 }
