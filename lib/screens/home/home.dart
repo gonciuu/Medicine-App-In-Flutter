@@ -20,6 +20,7 @@ class _HomeState extends State<Home> {
     setData();
   }
 
+  //--------------------GET ALL DATA FROM DATABASE---------------------
   Future setData() async{
     listOfPills.clear();
     (await _repository.getAllData("Pills")).forEach((pillMap) {
@@ -27,6 +28,7 @@ class _HomeState extends State<Home> {
     });
     setState(() {});
   }
+  //===================================================================
 
 
 

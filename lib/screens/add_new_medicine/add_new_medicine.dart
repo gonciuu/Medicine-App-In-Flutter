@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine/database/repository.dart';
 import 'package:medicine/helpers/snack_bar.dart';
@@ -8,6 +9,8 @@ import 'package:medicine/models/pill.dart';
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class AddNewMedicine extends StatefulWidget {
   @override
@@ -15,6 +18,11 @@ class AddNewMedicine extends StatefulWidget {
 }
 
 class _AddNewMedicineState extends State<AddNewMedicine> {
+
+
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Snackbar snackbar = Snackbar();
 
@@ -42,7 +50,53 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   @override
   void initState() {
     super.initState();
+
     selectWeight = weightValues[0];
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) async {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return new AlertDialog(
+          title: Text("PayLoad"),
+          content: Text("Payload : $payload"),
+        );
+      },
+    );
+  }
+
+  Future _showNotificationWithDefaultSound() async {
+
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'your channel id', 'your channel name', 'your channel description',
+        importance: Importance.high, priority: Priority.high,when: setDate.millisecondsSinceEpoch);
+    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    var platformChannelSpecifics = new NotificationDetails(
+        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+    print(setDate.millisecondsSinceEpoch);
+    print(tz.TZDateTime.now(tz.local).millisecondsSinceEpoch);
+
+    var time = setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
+    print(time);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0,
+        'scheduled title',
+        'scheduled body',
+        tz.TZDateTime.now(tz.local).add(Duration(milliseconds: time)),
+        const NotificationDetails(
+            android: AndroidNotificationDetails('your channel id',
+                'your channel name', 'your channel description')),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   @override
@@ -274,6 +328,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
+    _showNotificationWithDefaultSound();
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
