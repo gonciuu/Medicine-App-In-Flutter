@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   }
 
   Future setData() async{
+    listOfPills.clear();
     (await _repository.getAllData("Pills")).forEach((pillMap) {
       listOfPills.add(Pill().pillMapToObject(pillMap));
     });
@@ -37,8 +38,8 @@ class _HomeState extends State<Home> {
 
     final Widget addButton = FloatingActionButton(
       elevation: 2.0,
-      onPressed: (){
-        Navigator.pushNamed(context, "/add_new_medicine");
+      onPressed: () async {
+        await Navigator.pushNamed(context, "/add_new_medicine").then((value) => setData());
       },
       child: Icon(Icons.add, color: Colors.white, size: 24.0,),
       backgroundColor: Theme.of(context).primaryColor,

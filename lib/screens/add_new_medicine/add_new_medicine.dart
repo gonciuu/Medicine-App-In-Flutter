@@ -282,14 +282,12 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
     dynamic result = await _repository.insertData("Pills", pill.pillToMap());
-    print(result);
     if (result == null) {
       snackbar.showSnack("Something went wrong", _scaffoldKey, null);
     } else {
       snackbar.showSnack(
           "Saved", _scaffoldKey, null);
-      Future.delayed(Duration(seconds: 2)).then((value) => Navigator.pop(context));
-
+      Navigator.pop(context);
     }
   }
   //=================================================================================================
