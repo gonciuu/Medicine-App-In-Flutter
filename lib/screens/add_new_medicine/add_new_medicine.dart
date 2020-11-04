@@ -52,15 +52,18 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     super.initState();
 
     selectWeight = weightValues[0];
-    var initializationSettingsAndroid =
-    new AndroidInitializationSettings('app_icon');
+
+    //-----------------------------| Inicialize local notifications |--------------------------------------
+    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    var initializationSettings = new InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
+    //======================================================================================================
+
   }
 
+  //-------------| function to inicialize local notifications |---------------------------
   Future onSelectNotification(String payload) async {
     showDialog(
       context: context,
@@ -72,8 +75,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       },
     );
   }
+  //======================================================================================
 
-  Future _showNotificationWithDefaultSound(String title, String description, int time,int id) async {
+  //---------------------------------| Show the notification in the specific time |-------------------------------
+  Future _showNotification(String title, String description, int time,int id) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
@@ -86,6 +91,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime);
   }
+  //================================================================================================================
 
   @override
   Widget build(BuildContext context) {
@@ -331,10 +337,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     } else {
       snackbar.showSnack(
           "Saved", _scaffoldKey, null);
+      //set the schneudele
       tz.initializeTimeZones();
       tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-      var time = setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
-      _showNotificationWithDefaultSound(pill.name,pill.medicineForm + " " + pill.type,time,setDate.millisecond);
+      await _showNotification(pill.name,pill.medicineForm + " " + pill.type,time,setDate.millisecond);
       Navigator.pop(context);
     }
   }
@@ -348,4 +354,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     });
   }
   //=====================================================================================================
+
+  //get time difference
+  int get time => setDate.millisecondsSinceEpoch - tz.TZDateTime.now(tz.local).millisecondsSinceEpoch;
 }
