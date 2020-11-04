@@ -83,20 +83,18 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //---------------------------------| Show the notification in the specific time |-------------------------------
   Future _showNotification(
       String title, String description, int time, int id) async {
+    print(id);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        id,
+        id.toInt(),
         title,
         description,
         tz.TZDateTime.now(tz.local).add(Duration(milliseconds: time)),
         const NotificationDetails(
             android: AndroidNotificationDetails(
-          'medicines_id',
-          'medicines',
-          'medicines_notification_channel',
-          importance: Importance.high,
-          priority: Priority.high,
-              color: Colors.cyanAccent
-        )),
+                'medicines_id', 'medicines', 'medicines_notification_channel',
+                importance: Importance.high,
+                priority: Priority.high,
+                color: Colors.cyanAccent)),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
@@ -334,6 +332,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
+
+    
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
@@ -344,18 +344,23 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
 
-    dynamic result = await _repository.insertData("Pills", pill.pillToMap());
-    if (result == null) {
-      snackbar.showSnack("Something went wrong", _scaffoldKey, null);
-    } else {
-      snackbar.showSnack("Saved", _scaffoldKey, null);
-      //set the schneudele
-      tz.initializeTimeZones();
-      tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-      await _showNotification(pill.name, pill.medicineForm + " " + pill.type,
-          time, setDate.millisecond);
-      Navigator.pop(context);
+    for (int i = 0; i < howManyWeeks; i++) {
+      dynamic result = await _repository.insertData("Pills", pill.pillToMap());
+      if (result == null) {
+        snackbar.showSnack("Something went wrong", _scaffoldKey, null);
+        return;
+      } else {
+        //set the notification schneudele
+        tz.initializeTimeZones();
+        tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
+        await _showNotification(pill.name, pill.medicineForm + " " + pill.type,
+            time, setDate.millisecondsSinceEpoch.toUnsigned(30));
+        setDate = setDate.add(Duration(milliseconds: 604800000));
+        pill.time = setDate.millisecondsSinceEpoch;
+      }
     }
+    Navigator.pop(context);
+    snackbar.showSnack("Saved", _scaffoldKey, null);
   }
 
   //=================================================================================================
