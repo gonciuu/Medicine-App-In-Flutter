@@ -4,19 +4,16 @@ import '../../screens/home/calendar_day.dart';
 
 class Calendar extends StatefulWidget {
   final Function chooseDay;
-  Calendar(this.chooseDay);
+  final List<Day> _daysList;
+  Calendar(this.chooseDay,this._daysList);
   @override
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  final Day _days = Day();
-  List<Day> _daysList;
-
   @override
   void initState() {
     super.initState();
-    _daysList = _days.getCurrentDays();
   }
 
   @override
@@ -28,19 +25,12 @@ class _CalendarState extends State<Calendar> {
       height: deviceHeight * 0.11,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [..._daysList.map((day) => CalendarDay(day, onDayClick))],
+        children: [...widget._daysList.map((day) => CalendarDay(day, widget.chooseDay))],
       ),
     );
   }
 
-  void onDayClick(Day clickedDay) {
-    setState(() {
-      for (Day day in _daysList) {
-        day.isChecked = false;
-      }
-      Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
-      chooseDay.isChecked = true;
-      widget.chooseDay(chooseDay.dayNumber,chooseDay.month,chooseDay.year);
-    });
-  }
+
+
+
 }

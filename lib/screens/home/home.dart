@@ -5,6 +5,7 @@ import '../../database/repository.dart';
 import '../../models/pill.dart';
 import '../../screens/home/medicines_list.dart';
 import '../../screens/home/calendar.dart';
+import '../../models/day.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,13 +15,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Pill> allListOfPills = List<Pill>();
   final Repository _repository = Repository();
-
   List<Pill> dailyPills = List<Pill>();
+
+  final Day _days = Day();
+  List<Day> _daysList;
 
   @override
   void initState() {
     super.initState();
     setData();
+    _daysList = _days.getCurrentDays();
   }
 
   //--------------------GET ALL DATA FROM DATABASE---------------------
@@ -29,9 +33,7 @@ class _HomeState extends State<Home> {
     (await _repository.getAllData("Pills")).forEach((pillMap) {
       allListOfPills.add(Pill().pillMapToObject(pillMap));
     });
-    setState(() {});
-    DateTime currentDate = DateTime.now();
-    chooseDay(currentDate.day,currentDate.month,currentDate.year);
+    chooseDay(_daysList[0]);
   }
 
   //===================================================================
@@ -98,7 +100,7 @@ class _HomeState extends State<Home> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Calendar(chooseDay),
+                  child: Calendar(chooseDay,_daysList),
                 ),
                 SizedBox(height: deviceHeight * 0.03),
                 dailyPills.isEmpty
@@ -127,9 +129,14 @@ class _HomeState extends State<Home> {
   }
 
 
-  void chooseDay(int chooseDayNumber,int chooseMonth,int chooseYear){
+  void chooseDay(Day clickedDay){
 
     setState(() {
+      for (Day day in _daysList) {
+        day.isChecked = false;
+      }
+      Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
+      chooseDay.isChecked = true;
       dailyPills.clear();
       allListOfPills.forEach((pill) {
         DateTime pillDate = DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
@@ -137,11 +144,12 @@ class _HomeState extends State<Home> {
       print("pill : ${pillDate.month} / choose : $chooseMonth");
       print("pill : ${pillDate.year} / choose : $chooseYear");*/
 
-        if(chooseDayNumber == pillDate.day && chooseMonth == pillDate.month && chooseYear == pillDate.year){
+        if(clickedDay.dayNumber == pillDate.day && clickedDay.month == pillDate.month && clickedDay.year == pillDate.year){
           dailyPills.add(pill);
         }
       });
     });
-
   }
+
+
 }
