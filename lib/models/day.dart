@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Day {
   String dayLetter;
-  String dayNumber;
+  int dayNumber;
+  int month;
+  int year;
   bool isChecked;
 
-  Day({this.dayLetter, this.dayNumber, this.isChecked});
+  Day({this.dayLetter,this.dayNumber,this.year, this.month, this.isChecked});
 
   List<Day> getCurrentDays() {
     final List<Day> daysList = List();
@@ -14,7 +16,10 @@ class Day {
     for (int i = 0; i < 7; i++) {
       daysList.add(Day(
           dayLetter: DateFormat.E().format(currentTime).toString()[0],
-          dayNumber: DateFormat.d().format(currentTime).toString(),isChecked: false));
+          dayNumber: currentTime.day,
+          month:currentTime.month,
+          year: currentTime.year,
+          isChecked: false));
       currentTime = currentTime.add(Duration(days: 1));
     }
     daysList[0].isChecked = true;

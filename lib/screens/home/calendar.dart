@@ -3,6 +3,8 @@ import '../../models/day.dart';
 import '../../screens/home/calendar_day.dart';
 
 class Calendar extends StatefulWidget {
+  final Function chooseDay;
+  Calendar(this.chooseDay);
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -36,7 +38,9 @@ class _CalendarState extends State<Calendar> {
       for (Day day in _daysList) {
         day.isChecked = false;
       }
-      _daysList[_daysList.indexOf(clickedDay)].isChecked = true;
+      Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
+      chooseDay.isChecked = true;
+      widget.chooseDay(chooseDay.dayNumber,chooseDay.month,chooseDay.year);
     });
   }
 }

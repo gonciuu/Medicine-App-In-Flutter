@@ -305,6 +305,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           value != null ? value.hour : setDate.hour,
           value != null ? value.minute : setDate.minute);
       setState(() => setDate = newDate);
+      print(newDate.hour);
+      print(newDate.minute);
+
     });
   }
 
@@ -325,6 +328,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           setDate.hour,
           setDate.minute);
       setState(() => setDate = newDate);
+      print(setDate.day);
+      print(setDate.month);
+      print(setDate.year);
     });
   }
 
@@ -347,6 +353,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
     //---------------------| Save as many medicines as many user checks |----------------------
     for (int i = 0; i < howManyWeeks; i++) {
+      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).day);
+      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).month);
+      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).year);
+
       dynamic result = await _repository.insertData("Pills", pill.pillToMap());
       if (result == null) {
         snackbar.showSnack("Something went wrong", _scaffoldKey, null);

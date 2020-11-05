@@ -38,7 +38,7 @@ class _CalendarDayState extends State<CalendarDay> {
               child: Padding(
                 padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  widget.day.dayNumber,
+                  widget.day.dayNumber.toString(),
                   style: TextStyle(
                       color: widget.day.isChecked ? Colors.white : Colors.black,
                       fontSize: 22.0,

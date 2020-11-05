@@ -12,8 +12,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Pill> listOfPills = List<Pill>();
+  List<Pill> allListOfPills = List<Pill>();
   final Repository _repository = Repository();
+
+  List<Pill> dailyPills = List<Pill>();
 
   @override
   void initState() {
@@ -23,11 +25,13 @@ class _HomeState extends State<Home> {
 
   //--------------------GET ALL DATA FROM DATABASE---------------------
   Future setData() async {
-    listOfPills.clear();
+    allListOfPills.clear();
     (await _repository.getAllData("Pills")).forEach((pillMap) {
-      listOfPills.add(Pill().pillMapToObject(pillMap));
+      allListOfPills.add(Pill().pillMapToObject(pillMap));
     });
     setState(() {});
+    DateTime currentDate = DateTime.now();
+    chooseDay(currentDate.day,currentDate.month,currentDate.year);
   }
 
   //===================================================================
@@ -94,10 +98,10 @@ class _HomeState extends State<Home> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0),
-                  child: Calendar(),
+                  child: Calendar(chooseDay),
                 ),
                 SizedBox(height: deviceHeight * 0.03),
-                listOfPills.isEmpty
+                dailyPills.isEmpty
                     ? SizedBox(
                         width: double.infinity,
                         height: 100,
@@ -113,12 +117,31 @@ class _HomeState extends State<Home> {
                           speed: Duration(milliseconds: 150),
                         ),
                       )
-                    : MedicinesList(listOfPills)
+                    : MedicinesList(dailyPills)
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+
+  void chooseDay(int chooseDayNumber,int chooseMonth,int chooseYear){
+
+    setState(() {
+      dailyPills.clear();
+      allListOfPills.forEach((pill) {
+        DateTime pillDate = DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
+        /* print("pill : ${pillDate.day} / choose : $chooseDayNumber");
+      print("pill : ${pillDate.month} / choose : $chooseMonth");
+      print("pill : ${pillDate.year} / choose : $chooseYear");*/
+
+        if(chooseDayNumber == pillDate.day && chooseMonth == pillDate.month && chooseYear == pillDate.year){
+          dailyPills.add(pill);
+        }
+      });
+    });
+
   }
 }
