@@ -13,12 +13,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  //--------------------| List of Pills from database |----------------------
   List<Pill> allListOfPills = List<Pill>();
   final Repository _repository = Repository();
   List<Pill> dailyPills = List<Pill>();
+  //=========================================================================
 
+  //-----------------| Calendar days |------------------
   final Day _days = Day();
   List<Day> _daysList;
+  //====================================================
 
   @override
   void initState() {
@@ -129,27 +133,25 @@ class _HomeState extends State<Home> {
   }
 
 
+  //-------------------------| Click on the calendar day |-------------------------
+
   void chooseDay(Day clickedDay){
 
     setState(() {
-      for (Day day in _daysList) {
-        day.isChecked = false;
-      }
+      _daysList.forEach((day) => day.isChecked = false );
       Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
       chooseDay.isChecked = true;
       dailyPills.clear();
       allListOfPills.forEach((pill) {
         DateTime pillDate = DateTime.fromMicrosecondsSinceEpoch(pill.time * 1000);
-        /* print("pill : ${pillDate.day} / choose : $chooseDayNumber");
-      print("pill : ${pillDate.month} / choose : $chooseMonth");
-      print("pill : ${pillDate.year} / choose : $chooseYear");*/
-
-        if(clickedDay.dayNumber == pillDate.day && clickedDay.month == pillDate.month && clickedDay.year == pillDate.year){
+        if(chooseDay.dayNumber == pillDate.day && chooseDay.month == pillDate.month && chooseDay.year == pillDate.year){
           dailyPills.add(pill);
         }
       });
     });
   }
+
+  //===============================================================================
 
 
 }

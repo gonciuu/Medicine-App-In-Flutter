@@ -10,6 +10,7 @@ class Day {
 
   Day({this.dayLetter,this.dayNumber,this.year, this.month, this.isChecked});
 
+  //----------------| get current 7 days |----------------------
   List<Day> getCurrentDays() {
     final List<Day> daysList = List();
     DateTime currentTime = DateTime.now();
@@ -25,4 +26,5 @@ class Day {
     daysList[0].isChecked = true;
     return daysList;
   }
+  //============================================================
 }
