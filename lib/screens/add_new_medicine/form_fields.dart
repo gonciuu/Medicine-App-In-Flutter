@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:medicine/helpers/platform_slider.dart';
 import 'package:medicine/screens/add_new_medicine/slider.dart';
 
 
@@ -14,7 +13,6 @@ class FormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height - 60.0;
     return LayoutBuilder(
       builder:(context,constrains)=> Column(
         mainAxisAlignment: MainAxisAlignment.start,

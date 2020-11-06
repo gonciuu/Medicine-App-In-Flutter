@@ -24,6 +24,8 @@ class _HomeState extends State<Home> {
   List<Day> _daysList;
   //====================================================
 
+  int _lastChooseDay = 0;
+
   @override
   void initState() {
     super.initState();
@@ -37,9 +39,8 @@ class _HomeState extends State<Home> {
     (await _repository.getAllData("Pills")).forEach((pillMap) {
       allListOfPills.add(Pill().pillMapToObject(pillMap));
     });
-    chooseDay(_daysList[0]);
+    chooseDay(_daysList[_lastChooseDay]);
   }
-
   //===================================================================
 
   @override
@@ -123,7 +124,7 @@ class _HomeState extends State<Home> {
                           speed: Duration(milliseconds: 150),
                         ),
                       )
-                    : MedicinesList(dailyPills)
+                    : MedicinesList(dailyPills,setData)
               ],
             ),
           ),
@@ -136,8 +137,8 @@ class _HomeState extends State<Home> {
   //-------------------------| Click on the calendar day |-------------------------
 
   void chooseDay(Day clickedDay){
-
     setState(() {
+      _lastChooseDay = _daysList.indexOf(clickedDay);
       _daysList.forEach((day) => day.isChecked = false );
       Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
       chooseDay.isChecked = true;

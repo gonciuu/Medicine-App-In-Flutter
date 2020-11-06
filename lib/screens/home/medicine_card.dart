@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medicine/database/repository.dart';
 import 'package:medicine/models/pill.dart';
-import 'package:path/path.dart';
 
 class MedicineCard extends StatelessWidget {
   final Pill medicine;
-
-  MedicineCard(this.medicine);
+  final Function setData;
+  MedicineCard(this.medicine,this.setData);
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,12 @@ class MedicineCard extends StatelessWidget {
         margin: EdgeInsets.symmetric(vertical: 7.0),
         color: Colors.white,
         child: ListTile(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            onLongPress: () => _showDeleteDialog(context, medicine.name),
-            contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            onLongPress: () =>
+                _showDeleteDialog(context, medicine.name, medicine.id),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
             title: Text(
               medicine.name,
               style: Theme.of(context).textTheme.headline1.copyWith(
@@ -41,7 +44,8 @@ class MedicineCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat("HH:mm").format(DateTime.fromMillisecondsSinceEpoch(medicine.time)),
+                  DateFormat("HH:mm").format(
+                      DateTime.fromMillisecondsSinceEpoch(medicine.time)),
                   style: TextStyle(
                       color: Colors.grey[500],
                       fontWeight: FontWeight.w400,
@@ -64,26 +68,34 @@ class MedicineCard extends StatelessWidget {
             )));
   }
 
-  void _showDeleteDialog(BuildContext context, String medicineName) {
+  void _showDeleteDialog(
+      BuildContext context, String medicineName, int medicineId) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: Text("Delete ?"),
               content: Text("Are you sure to delete $medicineName medicine?"),
-              contentTextStyle: TextStyle(fontSize: 17.0,color: Colors.grey[800]),
+              contentTextStyle:
+                  TextStyle(fontSize: 17.0, color: Colors.grey[800]),
               actions: [
                 FlatButton(
                   splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
-                  child: Text("Cancel",style: TextStyle(color: Theme.of(context).primaryColor),),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: Theme.of(context).primaryColor),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
                 FlatButton(
                   splashColor: Theme.of(context).primaryColor.withOpacity(0.3),
-                  child: Text("Delete",style: TextStyle(color: Theme.of(context).primaryColor)),
-                  onPressed: () {
-
+                  child: Text("Delete",
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
+                  onPressed: () async {
+                    await Repository().deleteData('Pills', medicineId);
+                    setData();
+                    Navigator.pop(context);
                   },
                 ),
               ],
