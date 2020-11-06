@@ -6,6 +6,7 @@ import 'package:medicine/database/repository.dart';
 import 'package:medicine/helpers/snack_bar.dart';
 import 'package:medicine/models/medicine_type.dart';
 import 'package:medicine/models/pill.dart';
+import 'package:medicine/notifications/notifications.dart';
 import '../../helpers/platform_flat_button.dart';
 import '../../screens/add_new_medicine/form_fields.dart';
 import '../../screens/add_new_medicine/medicine_type_card.dart';
@@ -46,61 +47,20 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //==========================================
 
   final Repository _repository = Repository();
+  final Notifications _notifications = Notifications();
 
   @override
   void initState() {
     super.initState();
 
     selectWeight = weightValues[0];
-
-    //-----------------------------| Inicialize local notifications |--------------------------------------
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = new InitializationSettings(
-        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-    flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
-    //======================================================================================================
+    initNotifies();
   }
 
-  //-------------| function to inicialize local notifications |---------------------------
-  Future onSelectNotification(String payload) async {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return new AlertDialog(
-          title: Text("PayLoad"),
-          content: Text("Payload : $payload"),
-        );
-      },
-    );
-  }
 
-  //======================================================================================
+  Future initNotifies() async => flutterLocalNotificationsPlugin = await _notifications.initNotifies(context);
 
-  //---------------------------------| Show the notification in the specific time |-------------------------------
-  Future _showNotification(
-      String title, String description, int time, int id) async {
-    print(id);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        id.toInt(),
-        title,
-        description,
-        tz.TZDateTime.now(tz.local).add(Duration(milliseconds: time)),
-        const NotificationDetails(
-            android: AndroidNotificationDetails(
-                'medicines_id', 'medicines', 'medicines_notification_channel',
-                importance: Importance.high,
-                priority: Priority.high,
-                color: Colors.cyanAccent)),
-        androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
-  }
 
-  //================================================================================================================
 
   @override
   Widget build(BuildContext context) {
@@ -365,8 +325,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
         //set the notification schneudele
         tz.initializeTimeZones();
         tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-        await _showNotification(pill.name, pill.medicineForm + " " + pill.type,
-            time, setDate.millisecondsSinceEpoch.toUnsigned(30));
+        await _notifications.showNotification(pill.name, pill.medicineForm + " " + pill.type,
+            time, setDate.millisecondsSinceEpoch.toUnsigned(30),flutterLocalNotificationsPlugin);
         setDate = setDate.add(Duration(milliseconds: 604800000));
         pill.time = setDate.millisecondsSinceEpoch;
       }
