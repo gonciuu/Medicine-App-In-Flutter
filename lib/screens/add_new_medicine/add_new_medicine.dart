@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -49,6 +51,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //-------------- Database and notifications ------------------
   final Repository _repository = Repository();
   final Notifications _notifications = Notifications();
+
   //============================================================
 
   @override
@@ -58,11 +61,9 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     initNotifies();
   }
 
-
   //init notifications
-  Future initNotifies() async => flutterLocalNotificationsPlugin = await _notifications.initNotifies(context);
-
-
+  Future initNotifies() async => flutterLocalNotificationsPlugin =
+      await _notifications.initNotifies(context);
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +270,6 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       setState(() => setDate = newDate);
       print(newDate.hour);
       print(newDate.minute);
-
     });
   }
 
@@ -301,9 +301,11 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   //--------------------------------------SAVE PILL IN DATABASE---------------------------------------
   Future savePill() async {
     //check if medicine time is lower than actual time
-    if(setDate.millisecondsSinceEpoch <= DateTime.now().millisecondsSinceEpoch){
-      snackbar.showSnack("Check your medicine time and date", _scaffoldKey,null);
-    }else{
+    if (setDate.millisecondsSinceEpoch <=
+        DateTime.now().millisecondsSinceEpoch) {
+      snackbar.showSnack(
+          "Check your medicine time and date", _scaffoldKey, null);
+    } else {
       //create pill object
       Pill pill = Pill(
           amount: amountController.text,
@@ -311,12 +313,13 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name,
           name: nameController.text,
           time: setDate.millisecondsSinceEpoch,
-          type: selectWeight);
-
+          type: selectWeight,
+          notifyId: Random().nextInt(10000000));
 
       //---------------------| Save as many medicines as many user checks |----------------------
       for (int i = 0; i < howManyWeeks; i++) {
-        dynamic result = await _repository.insertData("Pills", pill.pillToMap());
+        dynamic result =
+            await _repository.insertData("Pills", pill.pillToMap());
         if (result == null) {
           snackbar.showSnack("Something went wrong", _scaffoldKey, null);
           return;
@@ -324,17 +327,18 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           //set the notification schneudele
           tz.initializeTimeZones();
           tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-          await _notifications.showNotification(pill.name, pill.medicineForm + " " + pill.type,
-              time, setDate.millisecondsSinceEpoch.toUnsigned(30),flutterLocalNotificationsPlugin);
+          await _notifications.showNotification(pill.name, pill.medicineForm + " " + pill.type, time,
+              pill.notifyId,
+              flutterLocalNotificationsPlugin);
           setDate = setDate.add(Duration(milliseconds: 604800000));
           pill.time = setDate.millisecondsSinceEpoch;
+          pill.notifyId = Random().nextInt(10000000);
         }
       }
       //---------------------------------------------------------------------------------------
       snackbar.showSnack("Saved", _scaffoldKey, null);
       Navigator.pop(context);
     }
-
   }
 
   //=================================================================================================

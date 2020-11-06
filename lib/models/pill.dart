@@ -6,6 +6,7 @@ class Pill {
   int howManyWeeks;
   String medicineForm;
   int time;
+  int notifyId;
 
   Pill(
       {this.id,
@@ -14,7 +15,8 @@ class Pill {
       this.amount,
       this.medicineForm,
       this.name,
-      this.type});
+      this.type,
+      this.notifyId});
 
   //------------------set pill to map-------------------
 
@@ -27,6 +29,7 @@ class Pill {
     map['howManyWeeks'] = this.howManyWeeks;
     map['medicineForm'] = this.medicineForm;
     map['time'] = this.time;
+    map['notifyId'] = this.notifyId;
     return map;
   }
 
@@ -41,7 +44,8 @@ class Pill {
         type: pillMap['type'],
         howManyWeeks: pillMap['howManyWeeks'],
         medicineForm: pillMap['medicineForm'],
-        time: pillMap['time']);
+        time: pillMap['time'],
+        notifyId: pillMap['notifyId']);
   }
 //=====================================================================
 }

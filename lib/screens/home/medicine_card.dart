@@ -22,7 +22,7 @@ class MedicineCard extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onLongPress: () =>
-                _showDeleteDialog(context, medicine.name, medicine.id, medicine.time.toUnsigned(30)),
+                _showDeleteDialog(context, medicine.name, medicine.id, medicine.notifyId),
             contentPadding:
                 EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
             title: Text(
