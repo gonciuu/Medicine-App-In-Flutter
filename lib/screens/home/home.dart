@@ -16,8 +16,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  //-------------------| Flutter notifications |-------------------
   final Notifications _notifications = Notifications();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  //===============================================================
 
   //--------------------| List of Pills from database |----------------------
   List<Pill> allListOfPills = List<Pill>();
@@ -30,6 +32,7 @@ class _HomeState extends State<Home> {
   List<CalendarDayModel> _daysList;
   //====================================================
 
+  //handle last choose day index in calendar
   int _lastChooseDay = 0;
 
   @override
@@ -40,6 +43,7 @@ class _HomeState extends State<Home> {
     _daysList = _days.getCurrentDays();
   }
 
+  //init notifications
   Future initNotifies() async => flutterLocalNotificationsPlugin = await _notifications.initNotifies(context);
 
 

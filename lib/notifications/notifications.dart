@@ -47,7 +47,6 @@ class Notifications {
 
 
   //-------------------------| Cancel the notify |---------------------------
-
   Future removeNotify(int notifyId, FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async{
     try{
       return await flutterLocalNotificationsPlugin.cancel(notifyId);
