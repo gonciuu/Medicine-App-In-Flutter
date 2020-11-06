@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
-import '../../models/day.dart';
+import '../../models/calendar_day_model.dart';
 
 class CalendarDay extends StatefulWidget {
-  final Day day;
+  final CalendarDayModel day;
   final Function onDayClick;
 
   CalendarDay(this.day, this.onDayClick);

@@ -303,9 +303,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
     Pill pill = Pill(
         amount: amountController.text,
         howManyWeeks: howManyWeeks,
-        medicineForm: medicineTypes[
-                medicineTypes.indexWhere((element) => element.isChoose == true)]
-            .name,
+        medicineForm: medicineTypes[medicineTypes.indexWhere((element) => element.isChoose == true)].name,
         name: nameController.text,
         time: setDate.millisecondsSinceEpoch,
         type: selectWeight);
@@ -313,10 +311,6 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
     //---------------------| Save as many medicines as many user checks |----------------------
     for (int i = 0; i < howManyWeeks; i++) {
-      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).day);
-      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).month);
-      print((DateTime.fromMicrosecondsSinceEpoch(setDate.millisecondsSinceEpoch * 1000)).year);
-
       dynamic result = await _repository.insertData("Pills", pill.pillToMap());
       if (result == null) {
         snackbar.showSnack("Something went wrong", _scaffoldKey, null);
@@ -332,8 +326,8 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
       }
     }
     //---------------------------------------------------------------------------------------
-    Navigator.pop(context);
     snackbar.showSnack("Saved", _scaffoldKey, null);
+    Navigator.pop(context);
   }
 
   //=================================================================================================

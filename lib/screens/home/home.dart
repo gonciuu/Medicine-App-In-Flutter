@@ -1,11 +1,13 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:medicine/notifications/notifications.dart';
 import '../../database/repository.dart';
 import '../../models/pill.dart';
 import '../../screens/home/medicines_list.dart';
 import '../../screens/home/calendar.dart';
-import '../../models/day.dart';
+import '../../models/calendar_day_model.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,6 +15,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final Notifications _notifications = Notifications();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   //--------------------| List of Pills from database |----------------------
   List<Pill> allListOfPills = List<Pill>();
   final Repository _repository = Repository();
@@ -20,8 +26,8 @@ class _HomeState extends State<Home> {
   //=========================================================================
 
   //-----------------| Calendar days |------------------
-  final Day _days = Day();
-  List<Day> _daysList;
+  final CalendarDayModel _days = CalendarDayModel();
+  List<CalendarDayModel> _daysList;
   //====================================================
 
   int _lastChooseDay = 0;
@@ -29,9 +35,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    initNotifies();
     setData();
     _daysList = _days.getCurrentDays();
   }
+
+  Future initNotifies() async => flutterLocalNotificationsPlugin = await _notifications.initNotifies(context);
+
 
   //--------------------GET ALL DATA FROM DATABASE---------------------
   Future setData() async {
@@ -124,7 +134,7 @@ class _HomeState extends State<Home> {
                           speed: Duration(milliseconds: 150),
                         ),
                       )
-                    : MedicinesList(dailyPills,setData)
+                    : MedicinesList(dailyPills,setData,flutterLocalNotificationsPlugin)
               ],
             ),
           ),
@@ -136,11 +146,11 @@ class _HomeState extends State<Home> {
 
   //-------------------------| Click on the calendar day |-------------------------
 
-  void chooseDay(Day clickedDay){
+  void chooseDay(CalendarDayModel clickedDay){
     setState(() {
       _lastChooseDay = _daysList.indexOf(clickedDay);
       _daysList.forEach((day) => day.isChecked = false );
-      Day chooseDay = _daysList[_daysList.indexOf(clickedDay)];
+      CalendarDayModel chooseDay = _daysList[_daysList.indexOf(clickedDay)];
       chooseDay.isChecked = true;
       dailyPills.clear();
       allListOfPills.forEach((pill) {

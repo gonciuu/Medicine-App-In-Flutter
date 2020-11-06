@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine/database/repository.dart';
 import 'package:medicine/models/pill.dart';
+import 'package:medicine/notifications/notifications.dart';
 
 class MedicineCard extends StatelessWidget {
   final Pill medicine;
   final Function setData;
-  MedicineCard(this.medicine,this.setData);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  MedicineCard(this.medicine,this.setData,this.flutterLocalNotificationsPlugin);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class MedicineCard extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             onLongPress: () =>
-                _showDeleteDialog(context, medicine.name, medicine.id),
+                _showDeleteDialog(context, medicine.name, medicine.id, medicine.time.toUnsigned(30)),
             contentPadding:
                 EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
             title: Text(
@@ -68,8 +71,7 @@ class MedicineCard extends StatelessWidget {
             )));
   }
 
-  void _showDeleteDialog(
-      BuildContext context, String medicineName, int medicineId) {
+  void _showDeleteDialog(BuildContext context, String medicineName, int medicineId, int notifyId) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -94,6 +96,7 @@ class MedicineCard extends StatelessWidget {
                       style: TextStyle(color: Theme.of(context).primaryColor)),
                   onPressed: () async {
                     await Repository().deleteData('Pills', medicineId);
+                    await Notifications().removeNotify(notifyId, flutterLocalNotificationsPlugin);
                     setData();
                     Navigator.pop(context);
                   },

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../models/day.dart';
+import '../../models/calendar_day_model.dart';
 import '../../screens/home/calendar_day.dart';
 
 class Calendar extends StatefulWidget {
   final Function chooseDay;
-  final List<Day> _daysList;
+  final List<CalendarDayModel> _daysList;
   Calendar(this.chooseDay,this._daysList);
   @override
   _CalendarState createState() => _CalendarState();

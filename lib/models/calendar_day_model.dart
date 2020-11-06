@@ -1,21 +1,21 @@
 
 import 'package:intl/intl.dart';
 
-class Day {
+class CalendarDayModel {
   String dayLetter;
   int dayNumber;
   int month;
   int year;
   bool isChecked;
 
-  Day({this.dayLetter,this.dayNumber,this.year, this.month, this.isChecked});
+  CalendarDayModel({this.dayLetter,this.dayNumber,this.year, this.month, this.isChecked});
 
   //----------------| get current 7 days |----------------------
-  List<Day> getCurrentDays() {
-    final List<Day> daysList = List();
+  List<CalendarDayModel> getCurrentDays() {
+    final List<CalendarDayModel> daysList = List();
     DateTime currentTime = DateTime.now();
     for (int i = 0; i < 7; i++) {
-      daysList.add(Day(
+      daysList.add(CalendarDayModel(
           dayLetter: DateFormat.E().format(currentTime).toString()[0],
           dayNumber: currentTime.day,
           month:currentTime.month,
