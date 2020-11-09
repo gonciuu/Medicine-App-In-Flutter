@@ -48,4 +48,17 @@ class Pill {
         notifyId: pillMap['notifyId']);
   }
 //=====================================================================
+
+
+  String get image{
+    switch(this.medicineForm){
+      case "Syrup": return "assets/images/syrup.png"; break;
+      case "Pill":return "assets/images/pills.png"; break;
+      case "Capsule":return "assets/images/capsule.png"; break;
+      case "Cream":return "assets/images/cream.png"; break;
+      case "Drops":return "assets/images/drops.png"; break;
+      case "Syringe":return "assets/images/syringe.png"; break;
+      default : return "assets/images/pills.png"; break;
+    }
+  }
 }

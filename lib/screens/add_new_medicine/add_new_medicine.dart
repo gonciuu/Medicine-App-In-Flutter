@@ -329,7 +329,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
           //set the notification schneudele
           tz.initializeTimeZones();
           tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
-          await _notifications.showNotification(pill.name, pill.medicineForm + " " + pill.type, time,
+          await _notifications.showNotification(pill.name, pill.amount + " " + pill.medicineForm + " " + pill.type, time,
               pill.notifyId,
               flutterLocalNotificationsPlugin);
           setDate = setDate.add(Duration(milliseconds: 604800000));

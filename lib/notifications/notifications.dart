@@ -1,3 +1,4 @@
+import 'package:medicine/models/pill.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter/material.dart';
@@ -25,8 +26,7 @@ class Notifications {
 
 
   //---------------------------------| Show the notification in the specific time |-------------------------------
-  Future showNotification(String title, String description, int time, int id,FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    print(id);
+  Future showNotification(String title, String description, int time, int id, FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         id.toInt(),
         title,

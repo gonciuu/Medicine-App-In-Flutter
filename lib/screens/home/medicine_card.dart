@@ -6,6 +6,7 @@ import 'package:medicine/models/pill.dart';
 import 'package:medicine/notifications/notifications.dart';
 
 class MedicineCard extends StatelessWidget {
+
   final Pill medicine;
   final Function setData;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -14,6 +15,8 @@ class MedicineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isEnd = DateTime.now().millisecondsSinceEpoch > medicine.time;
+
+
     return Card(
         elevation: 0.0,
         margin: EdgeInsets.symmetric(vertical: 7.0),
@@ -66,7 +69,9 @@ class MedicineCard extends StatelessWidget {
                     colorFilter: ColorFilter.mode(
                         isEnd ? Colors.white : Colors.transparent,
                         BlendMode.saturation),
-                    child: Image.asset("assets/images/welcome_image.png")),
+                    child: Image.asset(
+                      medicine.image
+                    )),
               ),
             )));
   }
@@ -104,4 +109,6 @@ class MedicineCard extends StatelessWidget {
               ],
             ));
   }
+
+
 }
