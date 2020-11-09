@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:medicine/notifications/notifications.dart';
+import '../../notifications/notifications.dart';
 import '../../database/repository.dart';
 import '../../models/pill.dart';
 import '../../screens/home/medicines_list.dart';
@@ -106,9 +107,15 @@ class _HomeState extends State<Home> {
                               .headline1
                               .copyWith(color: Colors.black),
                         ),
-                        Icon(
-                          Icons.notifications_none,
-                          size: 42.0,
+                        ShakeAnimatedWidget(
+                          enabled: true,
+                          duration: Duration(milliseconds: 2000),
+                          curve: Curves.linear,
+                          shakeAngle: Rotation.deg(z: 30),
+                          child: Icon(
+                            Icons.notifications_none,
+                            size: 42.0,
+                          ),
                         )
                       ],
                     ),

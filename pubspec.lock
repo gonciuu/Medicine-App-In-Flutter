@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.3"
+  animated_widgets:
+    dependency: "direct main"
+    description:
+      name: animated_widgets
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   async:
     dependency: transitive
     description:
