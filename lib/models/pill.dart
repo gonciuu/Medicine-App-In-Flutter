@@ -50,6 +50,7 @@ class Pill {
 //=====================================================================
 
 
+  //---------------------| Get the medicine image path |-------------------------
   String get image{
     switch(this.medicineForm){
       case "Syrup": return "assets/images/syrup.png"; break;
@@ -61,4 +62,5 @@ class Pill {
       default : return "assets/images/pills.png"; break;
     }
   }
+  //=============================================================================
 }

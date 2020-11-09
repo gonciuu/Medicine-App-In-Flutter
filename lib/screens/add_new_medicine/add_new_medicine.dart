@@ -26,7 +26,10 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final Snackbar snackbar = Snackbar();
 
+  //medicine types
   final List<String> weightValues = ["pills", "ml", "mg"];
+
+  //list of medicines forms objects
   final List<MedicineType> medicineTypes = [
     MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
     MedicineType(

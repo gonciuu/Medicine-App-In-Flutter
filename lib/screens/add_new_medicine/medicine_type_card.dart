@@ -25,7 +25,7 @@ class MedicineTypeCard extends StatelessWidget {
                 Container(width:50,height: 50.0,child: pillType.image),
                 SizedBox(height: 7.0,),
                 Container(child: Text(pillType.name,style: TextStyle(
-                  color: Colors.black,fontWeight: FontWeight.w500
+                  color:pillType.isChoose ? Colors.white : Colors.black,fontWeight: FontWeight.w500
                 ),)),
               ],
             ),

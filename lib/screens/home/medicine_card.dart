@@ -14,8 +14,8 @@ class MedicineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //check if the medicine time is lower than actual
     final bool isEnd = DateTime.now().millisecondsSinceEpoch > medicine.time;
-
 
     return Card(
         elevation: 0.0,
@@ -76,6 +76,9 @@ class MedicineCard extends StatelessWidget {
             )));
   }
 
+
+  //--------------------------| SHOW THE DELETE DIALOG ON THE SCREEN |-----------------------
+
   void _showDeleteDialog(BuildContext context, String medicineName, int medicineId, int notifyId) {
     showDialog(
         context: context,
@@ -109,6 +112,7 @@ class MedicineCard extends StatelessWidget {
               ],
             ));
   }
+  //============================================================================================
 
 
 }
