@@ -28,7 +28,7 @@ class TitleAndMessage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 40.0, right: 40.0),
             child: AutoSizeText(
-              "An easy-to-use and reliable app that helps you remember to take your meds at the tight time",
+              "An easy-to-use and reliable app that helps you remember to take your meds at the right time",
               style: Theme.of(context)
                   .textTheme
                   .headline5

@@ -101,7 +101,7 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
               ),
               Container(
                 padding: EdgeInsets.only(left: 15.0),
-                height: deviceHeight * 0.06,
+                height: deviceHeight * 0.05,
                 child: FittedBox(
                     child: Text(
                   "Add Pills",
