@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medicine/screens/add_new_medicine/slider.dart';
 
@@ -13,6 +14,7 @@ class FormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final focus = FocusScope.of(context);
     return LayoutBuilder(
       builder:(context,constrains)=> Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -21,6 +23,7 @@ class FormFields extends StatelessWidget {
           Container(
             height: constrains.maxHeight * 0.22,
             child: TextField(
+              textInputAction: TextInputAction.next,
               controller: nameController,
               style: TextStyle(
                   color: Colors.black,
@@ -34,6 +37,7 @@ class FormFields extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                       borderSide:
                       BorderSide(width: 0.5, color: Colors.grey))),
+              onSubmitted: (val)=>focus.nextFocus(),
             ),
           ),
           SizedBox(
@@ -60,6 +64,7 @@ class FormFields extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
                                 width: 0.5, color: Colors.grey))),
+                    onSubmitted: (val)=>focus.unfocus(),
                   ),
                 ),
               ),
@@ -71,6 +76,7 @@ class FormFields extends StatelessWidget {
                 child: Container(
                   height: constrains.maxHeight * 0.22,
                   child: DropdownButtonFormField(
+                    onTap: ()=>focus.unfocus(),
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 15.0, vertical: 20.0),
