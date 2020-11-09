@@ -28,15 +28,17 @@ class _AddNewMedicineState extends State<AddNewMedicine> {
 
   final List<String> weightValues = ["pills", "ml", "mg"];
   final List<MedicineType> medicineTypes = [
-    MedicineType("Syrup", Image.asset("assets/images/welcome_image.png"), true),
+    MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
     MedicineType(
-        "Tablet", Image.asset("assets/images/welcome_image.png"), false),
+        "Pill", Image.asset("assets/images/pills.png"), false),
     MedicineType(
-        "Capsules", Image.asset("assets/images/welcome_image.png"), false),
+        "Capsule", Image.asset("assets/images/capsule.png"), false),
     MedicineType(
-        "Cream", Image.asset("assets/images/welcome_image.png"), false),
+        "Cream", Image.asset("assets/images/cream.png"), false),
     MedicineType(
-        "Spray", Image.asset("assets/images/welcome_image.png"), false),
+        "Drops", Image.asset("assets/images/drops.png"), false),
+    MedicineType(
+        "Syringe", Image.asset("assets/images/syringe.png"), false),
   ];
 
   //-------------Pill object------------------
