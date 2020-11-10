@@ -1,10 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:medicine/screens/add_new_medicine/add_new_medicine.dart';
 import 'package:medicine/screens/home/home.dart';
 import './screens/welcome/welcome.dart';
 
-void main() => runApp(MedicineApp());
+void main() {
+  runApp(MedicineApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.black.withOpacity(0.05),
+    statusBarColor: Colors.black.withOpacity(0.05),
+    statusBarIconBrightness: Brightness.dark
+  ));
+}
 
 class MedicineApp extends StatelessWidget {
   @override
